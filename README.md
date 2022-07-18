@@ -23,7 +23,7 @@ fn main() -> Result<(), Mpu6050Error<LinuxI2CError>> {
           .map_err(Mpu6050Error::I2c)?;
 
   let mut delay = Delay;
-  let mut mpu = Mpu6050::new(i2c);
+  let mut mpu = Mpu6050Builder::new().i2c(i2c).build().unwrap();
 
   mpu.init(&mut delay)?;
 
