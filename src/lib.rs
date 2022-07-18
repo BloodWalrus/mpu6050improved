@@ -76,7 +76,7 @@ pub struct Mpu6050Builder<I> {
     slave_addr: Option<u8>,
     acc_sensitivity: Option<AccelRange>,
     gyro_sensitivity: Option<GyroRange>,
-    gyro_offset: Option<Quat>,
+    gyro_offset: Option<Vec3A>,
     acc_offset: Option<Vec3A>,
 }
 
@@ -112,7 +112,7 @@ impl<I> Mpu6050Builder<I> {
         self
     }
 
-    pub fn gyro_offset(mut self, gyro_offset: Quat) -> Self {
+    pub fn gyro_offset(mut self, gyro_offset: Vec3A) -> Self {
         self.gyro_offset = Some(gyro_offset);
         self
     }
@@ -134,7 +134,7 @@ impl<I> Mpu6050Builder<I> {
                 .gyro_sensitivity
                 .map(|sens| sens.sensitivity())
                 .unwrap_or(GYRO_SENS.0),
-            gyro_offset: self.gyro_offset.unwrap_or(Quat::IDENTITY),
+            gyro_offset: self.gyro_offset.unwrap_or(Vec3A::ZERO),
             acc_offset: self.acc_offset.unwrap_or(Vec3A::ZERO),
         })
     }
@@ -146,7 +146,7 @@ pub struct Mpu6050<I> {
     slave_addr: u8,
     acc_sensitivity: f32,
     gyro_sensitivity: f32,
-    gyro_offset: Quat,
+    gyro_offset: Vec3A,
     acc_offset: Vec3A,
 }
 
@@ -411,12 +411,12 @@ where
     }
 
     /// Gyro readings in rad/s
-    pub fn get_gyro(&mut self) -> Result<Quat, Mpu6050Error<E>> {
+    pub fn get_gyro(&mut self) -> Result<Vec3A, Mpu6050Error<E>> {
         let mut gyro = self.read_rot(GYRO_REGX_H)?;
 
         gyro *= PI_180 / self.gyro_sensitivity;
 
-        Ok(Quat::from_euler(EulerRot::XYZ, gyro.x, gyro.y, gyro.z) * self.gyro_offset)
+        Ok(gyro + self.gyro_offset)
     }
 
     /// Sensor Temp in degrees celcius

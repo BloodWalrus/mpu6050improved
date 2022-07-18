@@ -1,6 +1,6 @@
 # `mpu6050` 
 
-This fork readds a dependency on std, swaps nalgebra for glam, adds a builder for Mpu6050, uses glam::Quat for rotation rather than euler angles
+This fork readds a dependency on std, swaps nalgebra for glam, adds a builder for Mpu6050.
 
 ## What Works
 * Reading the accelerometer, gyroscope, temperature sensor
