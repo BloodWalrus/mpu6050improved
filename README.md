@@ -1,5 +1,4 @@
-# `mpu6050` ![crates.io](https://img.shields.io/crates/v/mpu6050.svg) ![CircleCI](https://img.shields.io/circleci/build/github/juliangaal/mpu6050.svg)
-> no_std driver for the MPU6050 6-axis IMU
+# `mpu6050` 
 
 ## What Works
 * Reading the accelerometer, gyroscope, temperature sensor
