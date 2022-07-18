@@ -1,23 +1,14 @@
 [package]
 name = "mpu6050"
-version = "0.1.5"
-authors = ["Julian Gaal <gjulian@uos.de>"]
-edition = "2018"
+version = "0.2.0"
+edition = "2021"
 
 description = "Platform agnostic driver for MPU6050 6-axis IMU"
-repository = "https://github.com/juliangaal/mpu6050"
+repository = "https://github.com/BloodWalrus/mpu6050improved"
 readme = "README.md"
 keywords = ["mpu6050", "imu", "embedded"]
 license = "MIT"
 
 [dependencies]
 embedded-hal = "0.2.4"
-libm = "0.2.1"
-
-[dependencies.nalgebra]
-default-features = false
-version = "0.24.1"
-
-[dev-dependencies]
-i2cdev = "0.4.4"
-linux-embedded-hal = "0.3.0"
+glam = "0.21.2"
