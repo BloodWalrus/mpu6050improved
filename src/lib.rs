@@ -47,6 +47,8 @@
 mod bits;
 pub mod device;
 
+use std::fmt::Display;
+
 use crate::device::*;
 use embedded_hal::{
     blocking::delay::DelayMs,
@@ -75,6 +77,14 @@ pub enum Mpu6050Error<E> {
 pub enum Mpu6050BuilderError {
     /// No i2c device was provided to the builder
     NoI2cDeviceProvided,
+}
+
+impl Display for Mpu6050BuilderError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            Mpu6050BuilderError::NoI2cDeviceProvided => "Mpu6050BuilderError::NoI2cDeviceProvided",
+        })
+    }
 }
 
 pub struct Mpu6050Builder<I> {
