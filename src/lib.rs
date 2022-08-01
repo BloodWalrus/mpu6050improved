@@ -61,7 +61,7 @@ pub const PI: f32 = core::f32::consts::PI;
 /// PI / 180, for conversion to radians
 pub const PI_180: f32 = PI / 180.0;
 
-/// All possible errors in this crate
+/// All possible errors for Mpu6050
 #[derive(Debug)]
 pub enum Mpu6050Error<E> {
     /// I2C bus error
@@ -69,6 +69,12 @@ pub enum Mpu6050Error<E> {
 
     /// Invalid chip ID was read
     InvalidChipId(u8),
+}
+
+#[derive(Debug)]
+pub enum Mpu6050BuilderError {
+    /// No i2c device was provided to the builder
+    NoI2cDeviceProvided,
 }
 
 pub struct Mpu6050Builder<I> {
@@ -122,9 +128,12 @@ impl<I> Mpu6050Builder<I> {
         self
     }
 
-    pub fn build(self) -> Option<Mpu6050<I>> {
-        Some(Mpu6050 {
-            i2c: self.i2c?,
+    pub fn build(self) -> Result<Mpu6050<I>, Mpu6050BuilderError> {
+        Ok(Mpu6050 {
+            i2c: match self.i2c {
+                Some(i2c) => i2c,
+                None => return Err(Mpu6050BuilderError::NoI2cDeviceProvided),
+            },
             slave_addr: self.slave_addr.unwrap_or(DEFAULT_SLAVE_ADDR),
             acc_sensitivity: self
                 .acc_sensitivity
