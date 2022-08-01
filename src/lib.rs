@@ -79,6 +79,8 @@ pub enum Mpu6050BuilderError {
     NoI2cDeviceProvided,
 }
 
+impl std::error::Error for Mpu6050BuilderError {}
+
 impl Display for Mpu6050BuilderError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str(match self {
