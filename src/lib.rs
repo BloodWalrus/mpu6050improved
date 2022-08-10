@@ -47,7 +47,7 @@
 mod bits;
 pub mod device;
 
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
 
 use crate::device::*;
 use embedded_hal::{
@@ -72,6 +72,24 @@ pub enum Mpu6050Error<E> {
     /// Invalid chip ID was read
     InvalidChipId(u8),
 }
+
+impl<E: Display> Display for Mpu6050Error<E> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let tmp;
+        f.write_str(match self {
+            Mpu6050Error::I2c(error) => {
+                tmp = format!("i2c error: {}", error);
+                &tmp
+            }
+            Mpu6050Error::InvalidChipId(id) => {
+                tmp = format!("invalid chip id: {}", id);
+                &tmp
+            }
+        })
+    }
+}
+
+impl<E: Debug + Display> std::error::Error for Mpu6050Error<E> {}
 
 #[derive(Debug)]
 pub enum Mpu6050BuilderError {
