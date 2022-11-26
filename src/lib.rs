@@ -185,8 +185,8 @@ pub struct Mpu6050<I> {
     slave_addr: u8,
     acc_sensitivity: f32,
     gyro_sensitivity: f32,
-    gyro_offset: Vec3A,
-    acc_offset: Vec3A,
+    pub gyro_offset: Vec3A,
+    pub acc_offset: Vec3A,
 }
 
 impl<I, E> Mpu6050<I>
